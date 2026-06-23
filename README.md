@@ -1,73 +1,84 @@
-# React + TypeScript + Vite
+# Personal Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Personal portfolio website developed to present my background, technologies, projects and professional contact information.
 
-Currently, two official plugins are available:
+The portfolio was built with React, TypeScript and Vite, focusing on a modern, responsive and technology-oriented interface. The main goal is to highlight my experience and interests in software development, electronics, embedded systems and automation.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## About
 
-## React Compiler
+I am Pedro Machado, a Software Engineering student and Electronics Technician from Brazil.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+This portfolio presents my academic background, technical skills and projects involving programming, web development, electronics, Arduino, ESP32, RFID systems, automation and the integration between software and hardware.
 
-## Expanding the ESLint configuration
+## Technologies
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+* React
+* TypeScript
+* Vite
+* HTML
+* CSS
+* JavaScript
+* Git
+* GitHub
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Sections
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+* Home
+* About Me
+* Technologies
+* Projects
+* Education
+* Contact
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Featured Projects
+
+The portfolio includes projects related to:
+
+* C++ and data structures
+* Arduino and embedded systems
+* ESP32 and RFID access control
+* Electronics and automation
+* Web development
+
+## How to Run
+
+Clone the repository:
+
+```bash
+git clone https://github.com/Pedro-Machado-dev/personal-portfolio.git
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Enter the project folder:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+cd personal-portfolio
 ```
+
+Install the dependencies:
+
+```bash
+npm install
+```
+
+Run the project locally:
+
+```bash
+npm run dev
+```
+
+Open the local server in the browser:
+
+```text
+http://localhost:5173/
+```
+
+## Project Status
+
+This project is currently under development.
+
+New sections, design improvements, animations, responsiveness adjustments and deployment will be added as the portfolio evolves.
+
+## Contact
+
+* GitHub: [Pedro-Machado-dev](https://github.com/Pedro-Machado-dev)
+* LinkedIn: [Pedro Machado](https://www.linkedin.com/in/pedro-machado-dev/)
