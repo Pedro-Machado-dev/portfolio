@@ -97,10 +97,11 @@ body {
 /* HERO */
 
 .hero {
-  max-width: 1280px;
+  width: 100%;
+  max-width: none;
   min-height: 100vh;
-  margin: 0 auto;
-  padding: 150px 80px 90px;
+  margin: 0;
+  padding: 150px clamp(32px, 7vw, 140px) 90px;
 
   display: flex;
   align-items: center;
