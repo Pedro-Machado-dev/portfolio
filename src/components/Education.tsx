@@ -25,14 +25,14 @@ const educationText: Record<Language, EducationContent> = {
       {
         title: 'Software Engineering',
         institution: 'Inatel - Instituto Nacional de Telecomunicações',
-        period: '2025 - 2030',
+        period: '2025 - Current',
         description:
           'Undergraduate program focused on software development, programming, algorithms, data structures and computational systems.',
       },
       {
         title: 'Electronics Technician',
         institution: 'SENAI - Pouso Alegre',
-        period: '2023 - 2024',
+        period: '01/2023 - 10/2024',
         description:
           'Technical training in electronics, circuits, automation, embedded systems, maintenance and practical hardware projects.',
       },
@@ -60,14 +60,14 @@ const educationText: Record<Language, EducationContent> = {
       {
         title: 'Engenharia de Software',
         institution: 'Inatel - Instituto Nacional de Telecomunicações',
-        period: '2025 - 2030',
+        period: '2025 - Atualmente',
         description:
           'Graduação voltada ao desenvolvimento de software, programação, algoritmos, estruturas de dados e sistemas computacionais.',
       },
       {
         title: 'Técnico em Eletrônica',
         institution: 'SENAI - Pouso Alegre',
-        period: '2023 - 2024',
+        period: '01/2023 - 10/2024',
         description:
           'Formação técnica em eletrônica, circuitos, automação, sistemas embarcados, manutenção e projetos práticos de hardware.',
       },
