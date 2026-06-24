@@ -1,18 +1,54 @@
-function Navbar() {
+import type { Language } from '../App'
+
+type NavbarProps = {
+  language: Language
+  toggleLanguage: () => void
+}
+
+const navbarText = {
+  en: {
+    logo: 'Pedro Machado',
+    home: 'Home',
+    about: 'About',
+    technologies: 'Technologies',
+    projects: 'Projects',
+    education: 'Education',
+    contact: 'Contact',
+    button: 'PT',
+  },
+  pt: {
+    logo: 'Pedro Machado',
+    home: 'Início',
+    about: 'Sobre',
+    technologies: 'Tecnologias',
+    projects: 'Projetos',
+    education: 'Formação',
+    contact: 'Contato',
+    button: 'EN',
+  },
+}
+
+function Navbar({ language, toggleLanguage }: NavbarProps) {
+  const text = navbarText[language]
+
   return (
     <header className="navbar">
       <a href="#home" className="logo">
-        Pedro Machado
+        {text.logo}
       </a>
 
       <nav className="nav-links">
-        <a href="#home">Home</a>
-        <a href="#about">About</a>
-        <a href="#technologies">Technologies</a>
-        <a href="#projects">Projects</a>
-        <a href="#education">Education</a>
-        <a href="#contact">Contact</a>
+        <a href="#home">{text.home}</a>
+        <a href="#about">{text.about}</a>
+        <a href="#technologies">{text.technologies}</a>
+        <a href="#projects">{text.projects}</a>
+        <a href="#education">{text.education}</a>
+        <a href="#contact">{text.contact}</a>
       </nav>
+
+      <button className="language-button" onClick={toggleLanguage}>
+        {text.button}
+      </button>
     </header>
   )
 }

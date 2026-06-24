@@ -376,6 +376,10 @@ h2 {
   .education-card {
     grid-template-columns: 1fr;
   }
+
+  .language-button {
+  margin-top: 8px;
+  }
 }
 
 .contact {
@@ -388,4 +392,19 @@ h2 {
   gap: 16px;
   flex-wrap: wrap;
   margin-top: 36px;
+}
+
+.language-button {
+  background: transparent;
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.45);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.language-button:hover {
+  background: rgba(56, 189, 248, 0.1);
 }
