@@ -373,14 +373,6 @@ h2 {
 }
 
 @media (max-width: 768px) {
-  .education-card {
-    grid-template-columns: 1fr;
-  }
-
-  .language-button {
-  margin-top: 8px;
-  }
-
   .navbar {
     position: absolute;
     flex-direction: column;
@@ -404,33 +396,6 @@ h2 {
   }
 
   .hero {
-    padding: 220px 28px 90px;
-  }
-
-  h1 {
-    font-size: 52px;
-  }
-
-  h2 {
-    font-size: 28px;
-  }
-
-  .hero-description {
-    font-size: 20px;
-  }
-
-  .hero-buttons {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
-    max-width: 430px;
-  }
-
-  .button {
-    text-align: center;
-  }
-
-  .hero {
     padding: 220px 22px 80px;
   }
 
@@ -447,6 +412,16 @@ h2 {
   }
 
   .hero-buttons {
+    grid-template-columns: 1fr;
+    max-width: 360px;
+    width: 100%;
+  }
+
+  .button {
+    text-align: center;
+  }
+
+  .education-card {
     grid-template-columns: 1fr;
   }
 }
