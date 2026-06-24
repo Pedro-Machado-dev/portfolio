@@ -13,6 +13,7 @@ const heroText = {
       'I am a Software Engineering student and Electronics Technician focused on Web Development, Embedded Systems, Electronics and Automation.',
     projectsButton: 'View Projects',
     githubButton: 'GitHub',
+    resumeButton: 'Download CV',
   },
   pt: {
     tag: 'Software • Eletrônica • Sistemas Embarcados',
@@ -22,6 +23,7 @@ const heroText = {
       'Sou estudante de Engenharia de Software e Técnico em Eletrônica, com foco em Desenvolvimento Web, Sistemas Embarcados, Eletrônica e Automação.',
     projectsButton: 'Ver Projetos',
     githubButton: 'GitHub',
+    resumeButton: 'Baixar Currículo',
   },
 }
 
@@ -39,19 +41,28 @@ function Hero({ language }: HeroProps) {
       <p className="hero-description">{text.description}</p>
 
       <div className="hero-buttons">
-        <a href="#projects" className="button primary">
-          {text.projectsButton}
-        </a>
+      <a href="#projects" className="button primary">
+       {text.projectsButton}
+      </a>
 
-        <a
-          href="https://github.com/Pedro-Machado-dev"
-          className="button secondary"
-          target="_blank"
-          rel="noreferrer"
-        >
-          {text.githubButton}
-        </a>
-      </div>
+      <a
+       href="https://github.com/Pedro-Machado-dev"
+       className="button secondary"
+       target="_blank"
+       rel="noreferrer"
+      >
+       {text.githubButton}
+      </a>
+
+      <a
+       href="/pedro-machado-resume.pdf"
+       className="button secondary"
+       target="_blank"
+       rel="noreferrer"
+      >
+       {text.resumeButton}
+      </a>
+    </div>
     </section>
   )
 }
