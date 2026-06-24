@@ -380,6 +380,75 @@ h2 {
   .language-button {
   margin-top: 8px;
   }
+
+  .navbar {
+    position: absolute;
+    flex-direction: column;
+    gap: 14px;
+    padding: 22px 18px;
+  }
+
+  .nav-links {
+    gap: 14px;
+    row-gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .nav-links a {
+    font-size: 14px;
+  }
+
+  .language-button {
+    margin-top: 4px;
+  }
+
+  .hero {
+    padding: 220px 28px 90px;
+  }
+
+  h1 {
+    font-size: 52px;
+  }
+
+  h2 {
+    font-size: 28px;
+  }
+
+  .hero-description {
+    font-size: 20px;
+  }
+
+  .hero-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    max-width: 430px;
+  }
+
+  .button {
+    text-align: center;
+  }
+
+  .hero {
+    padding: 220px 22px 80px;
+  }
+
+  h1 {
+    font-size: 42px;
+  }
+
+  h2 {
+    font-size: 23px;
+  }
+
+  .hero-description {
+    font-size: 18px;
+  }
+
+  .hero-buttons {
+    grid-template-columns: 1fr;
+  }
 }
 
 .contact {
