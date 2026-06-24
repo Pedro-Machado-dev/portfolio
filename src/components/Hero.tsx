@@ -29,11 +29,23 @@ const heroText = {
   },
 }
 
+const techItems = [
+  'React',
+  'TypeScript',
+  'JavaScript',
+  'C++',
+  'Python',
+  'Arduino',
+  'ESP32',
+  'Ladder',
+]
+
 function Hero({ language }: HeroProps) {
   const text = heroText[language]
 
   return (
-    <section id="home" className="hero">
+  <section id="home" className="hero">
+    <div className="hero-content">
       <p className="hero-tag">{text.tag}</p>
 
       <h1>{text.name}</h1>
@@ -43,39 +55,50 @@ function Hero({ language }: HeroProps) {
       <p className="hero-description">{text.description}</p>
 
       <div className="hero-buttons">
-      <a href="#projects" className="button primary">
-       {text.projectsButton}
-      </a>
+        <a href="#projects" className="button primary">
+          {text.projectsButton}
+        </a>
 
-      <a
-       href="https://www.linkedin.com/in/pedro-machado-dev/"
-       className="button secondary"
-       target="_blank"
-       rel="noreferrer"
-      >
-       {text.linkedinButton}
-      </a>
+        <a
+          href="https://www.linkedin.com/in/pedro-machado-dev/"
+          className="button secondary"
+          target="_blank"
+          rel="noreferrer"
+        >
+          {text.linkedinButton}
+        </a>
 
-      <a
-       href="https://github.com/Pedro-Machado-dev"
-       className="button secondary"
-       target="_blank"
-       rel="noreferrer"
-      >
-       {text.githubButton}
-      </a>
+        <a
+          href="https://github.com/Pedro-Machado-dev"
+          className="button secondary"
+          target="_blank"
+          rel="noreferrer"
+        >
+          {text.githubButton}
+        </a>
 
-      <a
-       href="/pedro-machado-resume.pdf"
-       className="button secondary"
-       target="_blank"
-       rel="noreferrer"
-      >
-       {text.resumeButton}
-      </a>
+        <a
+          href="/pedro-machado-resume.pdf"
+          className="button secondary"
+          target="_blank"
+          rel="noreferrer"
+        >
+          {text.resumeButton}
+        </a>
+      </div>
     </div>
-    </section>
-  )
+
+    <div className="hero-visual" aria-hidden="true">
+  <div className="tech-showcase">
+    {techItems.map((tech, index) => (
+      <span className={`floating-tech tech-${index}`} key={tech}>
+        {tech}
+      </span>
+    ))}
+  </div>
+</div>
+  </section>
+)
 }
 
 export default Hero
