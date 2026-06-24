@@ -1,4 +1,5 @@
 import type { Language } from '../App'
+import { MdGTranslate } from 'react-icons/md'
 
 type NavbarProps = {
   language: Language
@@ -46,9 +47,15 @@ function Navbar({ language, toggleLanguage }: NavbarProps) {
         <a href="#contact">{text.contact}</a>
       </nav>
 
-      <button className="language-button" onClick={toggleLanguage}>
-        {text.button}
-      </button>
+      <button
+  className="language-button"
+  onClick={toggleLanguage}
+  aria-label={language === 'en' ? 'Switch to Portuguese' : 'Mudar para inglês'}
+  title={language === 'en' ? 'Switch to Portuguese' : 'Mudar para inglês'}
+>
+  <MdGTranslate className="language-icon" />
+  <span>{language === 'en' ? 'PT' : 'EN'}</span>
+</button>
     </header>
   )
 }
