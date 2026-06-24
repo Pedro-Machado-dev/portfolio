@@ -13,6 +13,7 @@ const heroText = {
       'I am a Software Engineering student and Electronics Technician focused on Web Development, Embedded Systems, Electronics and Automation.',
     projectsButton: 'View Projects',
     githubButton: 'GitHub',
+    linkedinButton: 'LinkedIn',
     resumeButton: 'Download CV',
   },
   pt: {
@@ -23,6 +24,7 @@ const heroText = {
       'Sou estudante de Engenharia de Software e Técnico em Eletrônica, com foco em Desenvolvimento Web, Sistemas Embarcados, Eletrônica e Automação.',
     projectsButton: 'Ver Projetos',
     githubButton: 'GitHub',
+    linkedinButton: 'LinkedIn',
     resumeButton: 'Baixar Currículo',
   },
 }
@@ -43,6 +45,15 @@ function Hero({ language }: HeroProps) {
       <div className="hero-buttons">
       <a href="#projects" className="button primary">
        {text.projectsButton}
+      </a>
+
+      <a
+       href="https://www.linkedin.com/in/pedro-machado-dev/"
+       className="button secondary"
+       target="_blank"
+       rel="noreferrer"
+      >
+       {text.linkedinButton}
       </a>
 
       <a
