@@ -6,6 +6,7 @@ import Technologies from './components/Technologies'
 import Projects from './components/Projects'
 import Education from './components/Education'
 import Contact from './components/Contact'
+import Footer from './components/Footer'
 import './App.css'
 
 export type Language = 'en' | 'pt'
@@ -26,6 +27,7 @@ function App() {
       <Projects language={language} />
       <Education language={language} />
       <Contact language={language} />
+      <Footer language={language} />
     </main>
   )
 }
