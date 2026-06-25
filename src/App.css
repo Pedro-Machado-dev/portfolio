@@ -787,40 +787,6 @@ h2 {
   border-bottom: 1px solid rgba(168, 85, 247, 0.14);
 }
 
-.footer-socials {
-  display: flex;
-  gap: 18px;
-}
-
-.footer-socials a {
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  color: #e9d5ff;
-  background: rgba(15, 23, 42, 0.72);
-  border: 1px solid rgba(168, 85, 247, 0.26);
-  text-decoration: none;
-
-  transition: 0.3s;
-}
-
-.footer-socials a:hover {
-  transform: translateY(-4px);
-  color: #ffffff;
-  border-color: rgba(168, 85, 247, 0.58);
-  background: rgba(168, 85, 247, 0.12);
-  box-shadow: 0 18px 35px rgba(168, 85, 247, 0.12);
-}
-
-.footer-socials svg {
-  font-size: 23px;
-}
-
 .footer-stack {
   display: flex;
   flex-direction: column;

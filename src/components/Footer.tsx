@@ -1,13 +1,6 @@
-import { FaGithub, FaLinkedin } from 'react-icons/fa'
-import { MdEmail } from 'react-icons/md'
-import {
-  SiReact,
-  SiTypescript,
-  SiVite,
-} from 'react-icons/si'
-
 import { FaCss3Alt } from 'react-icons/fa'
 import { LuTriangle } from 'react-icons/lu'
+import { SiReact, SiTypescript, SiVite } from 'react-icons/si'
 import type { Language } from '../App'
 
 type FooterProps = {
@@ -16,12 +9,16 @@ type FooterProps = {
 
 const footerText = {
   en: {
+    name: 'Pedro Machado',
+    role: 'Software Engineering Student & Electronics Technician',
     builtWith: 'Built with',
     styledWith: 'Styled with',
     deployedOn: 'Deployed on',
     copyright: '© 2026 Pedro Henrique Silva Machado. All rights reserved.',
   },
   pt: {
+    name: 'Pedro Machado',
+    role: 'Estudante de Engenharia de Software & Técnico em Eletrônica',
     builtWith: 'Construído com',
     styledWith: 'Estilizado com',
     deployedOn: 'Publicado na',
@@ -35,28 +32,9 @@ function Footer({ language }: FooterProps) {
   return (
     <footer className="footer">
       <div className="footer-content">
-        <div className="footer-socials">
-          <a
-            href="https://www.linkedin.com/in/pedro-machado-dev/"
-            target="_blank"
-            rel="noreferrer"
-            aria-label="LinkedIn"
-          >
-            <FaLinkedin />
-          </a>
-
-          <a
-            href="https://github.com/Pedro-Machado-dev"
-            target="_blank"
-            rel="noreferrer"
-            aria-label="GitHub"
-          >
-            <FaGithub />
-          </a>
-
-          <a href="mailto:pedromara2709@gmail.com" aria-label="Email">
-            <MdEmail />
-          </a>
+        <div className="footer-brand">
+          <h3>{text.name}</h3>
+          <p>{text.role}</p>
         </div>
 
         <div className="footer-stack">
