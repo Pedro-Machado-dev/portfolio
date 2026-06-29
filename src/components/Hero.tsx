@@ -10,7 +10,9 @@ import {
   SiOpenjdk,
   SiArduino,
 } from 'react-icons/si'
-import { LuCpu, LuWorkflow, LuMicrochip } from 'react-icons/lu'
+import { LuCpu, LuWorkflow, LuMicrochip, LuDownload } from 'react-icons/lu'
+import { FaGithub, FaLinkedin } from 'react-icons/fa'
+import CircuitBackground from './CircuitBackground'
 
 type HeroProps = {
   language: Language
@@ -64,6 +66,8 @@ function Hero({ language }: HeroProps) {
 
   return (
     <section id="home" className="hero">
+      <CircuitBackground />
+
       <div className="hero-content">
         <p className="hero-tag">{text.tag}</p>
 
@@ -79,47 +83,53 @@ function Hero({ language }: HeroProps) {
           </a>
 
           <a
-            href="https://www.linkedin.com/in/pedro-machado-dev/"
-            className="button secondary"
+            href="https://github.com/Pedro-Machado-dev"
+            className="button icon-button"
             target="_blank"
             rel="noreferrer"
+            aria-label={text.githubButton}
+            title={text.githubButton}
           >
-            {text.linkedinButton}
+            <FaGithub />
           </a>
 
           <a
-            href="https://github.com/Pedro-Machado-dev"
-            className="button secondary"
+            href="https://www.linkedin.com/in/pedro-machado-dev/"
+            className="button icon-button"
             target="_blank"
             rel="noreferrer"
+            aria-label={text.linkedinButton}
+            title={text.linkedinButton}
           >
-            {text.githubButton}
+            <FaLinkedin />
           </a>
 
           <a
             href="/pedro-machado-resume.pdf"
-            className="button secondary"
+            className="button icon-button"
             target="_blank"
             rel="noreferrer"
+            aria-label={text.resumeButton}
+            title={text.resumeButton}
           >
-            {text.resumeButton}
+            <LuDownload />
           </a>
         </div>
 
         <div className="tech-marquee" aria-hidden="true">
-  <div className="tech-marquee-track">
-    {[...techItems, ...techItems].map((tech, index) => {
-      const Icon = tech.icon
+          <div className="tech-marquee-track">
+            {[...techItems, ...techItems].map((tech, index) => {
+              const Icon = tech.icon
 
-      return (
-        <span className="tech-marquee-item" key={`${tech.name}-${index}`}>
-          <Icon className="tech-real-icon" />
-          <span>{tech.name}</span>
-        </span>
-      )
-    })}
-  </div>
-</div>
+              return (
+                <span className="tech-marquee-item" key={`${tech.name}-${index}`}>
+                  <Icon className="tech-real-icon" />
+                  <span>{tech.name}</span>
+                </span>
+              )
+            })}
+          </div>
+        </div>
       </div>
     </section>
   )
