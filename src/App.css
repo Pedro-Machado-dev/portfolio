@@ -647,6 +647,113 @@ h2 {
   color: #ffffff;
 }
 
+/* WEB PROJECTS */
+
+.web-projects {
+  margin-top: 40px;
+  margin-bottom: 56px;
+}
+
+.projects-subtitle {
+  color: var(--text-primary);
+  font-size: 26px;
+  margin: 36px 0 24px;
+}
+
+.web-projects-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.web-project-card {
+  background:
+    linear-gradient(145deg, rgba(10, 10, 14, 0.96), rgba(18, 18, 24, 0.92));
+  border: 1px solid rgba(203, 213, 225, 0.16);
+  border-radius: 20px;
+  padding: 22px;
+  transition: 0.3s;
+  backdrop-filter: blur(12px);
+  box-shadow:
+    0 18px 45px rgba(0, 0, 0, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.web-project-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(167, 139, 250, 0.48);
+  background:
+    linear-gradient(145deg, rgba(12, 12, 18, 0.98), rgba(22, 20, 30, 0.94));
+  box-shadow:
+    0 20px 48px rgba(0, 0, 0, 0.48),
+    0 0 28px rgba(167, 139, 250, 0.12);
+}
+
+.web-project-image-wrapper {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #050509;
+  border: 1px solid rgba(203, 213, 225, 0.16);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.02),
+    0 12px 28px rgba(0, 0, 0, 0.35);
+}
+
+.web-project-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.web-project-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.web-project-card-footer h3 {
+  color: var(--text-primary);
+  font-size: 21px;
+  line-height: 1.3;
+}
+
+.web-project-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.web-project-button {
+  width: 46px;
+  height: 46px;
+  min-width: 46px;
+  border-radius: 12px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--text-primary);
+  background: rgba(203, 213, 225, 0.06);
+  border: 1px solid rgba(203, 213, 225, 0.18);
+
+  font-size: 17px;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.web-project-button:hover {
+  color: #ffffff;
+  border-color: rgba(167, 139, 250, 0.52);
+  background: rgba(167, 139, 250, 0.1);
+  transform: translateY(-2px);
+}
+
 /* EDUCATION */
 
 .education-list {
@@ -1122,8 +1229,32 @@ h2 {
   }
 
   .tech-grid,
-  .projects-grid {
+  .projects-grid,
+  .web-projects-grid {
     grid-template-columns: 1fr;
+  }
+
+    .projects-subtitle {
+    font-size: 22px;
+    margin: 32px 0 20px;
+  }
+
+  .web-project-card {
+    padding: 14px;
+  }
+
+  .web-project-card-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .web-project-actions {
+    width: 100%;
+  }
+
+  .web-project-button {
+    width: 46px;
+    height: 46px;
   }
 
   .education-card,

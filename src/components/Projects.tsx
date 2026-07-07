@@ -1,7 +1,15 @@
 import type { Language } from '../App'
+import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa'
 
 type ProjectsProps = {
   language: Language
+}
+
+type WebProject = {
+  title: string
+  image: string
+  siteLink: string
+  githubLink: string
 }
 
 type Project = {
@@ -20,6 +28,15 @@ type ProjectsContent = {
   button: string
   projects: Project[]
 }
+
+const webProjects: WebProject[] = [
+  {
+    title: 'Maria Luiza Portfolio',
+    image: '/projects/maria-luiza-portfolio.jpeg',
+    siteLink: 'https://marialopes.vercel.app',
+    githubLink: 'https://github.com/Pedro-Machado-dev/portfolio-maria-luiza',
+  },
+]
 
 const projectsText: Record<Language, ProjectsContent> = {
   en: {
@@ -133,6 +150,58 @@ function Projects({ language }: ProjectsProps) {
       <p className="section-tag">{text.tag}</p>
 
       <h2 className="section-title">{text.title}</h2>
+
+      <div className="web-projects">
+      <h3 className="projects-subtitle">
+        {language === 'pt' ? 'Sites e Portfólios' : 'Websites & Portfolios'}
+      </h3>
+
+      <div className="web-projects-grid">
+        {webProjects.map((project) => (
+          <article className="web-project-card" key={project.title}>
+            <div className="web-project-image-wrapper">
+              <img
+                src={project.image}
+                alt={project.title}
+                className="web-project-image"
+              />
+            </div>
+
+            <div className="web-project-card-footer">
+              <h3>{project.title}</h3>
+
+              <div className="web-project-actions">
+                <a
+                href={project.siteLink}
+                className="web-project-button"
+                target="_blank"
+                rel="noreferrer"
+                aria-label={`Open ${project.title}`}
+                title={language === 'pt' ? 'Abrir site' : 'Open website'}
+              >
+                <FaExternalLinkAlt />
+              </a>
+
+              <a
+                href={project.githubLink}
+                className="web-project-button"
+                target="_blank"
+                rel="noreferrer"
+                aria-label={`Open ${project.title} repository`}
+                title="GitHub"
+              >
+                <FaGithub />
+              </a>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+
+    <h3 className="projects-subtitle">
+      {language === 'pt' ? 'Projetos Acadêmicos' : 'Academic Projects'}
+    </h3>
 
       <div className="projects-grid">
         {text.projects.map((project) => (
