@@ -1,146 +1,223 @@
+import { useEffect, useRef } from 'react'
+
 function CircuitBackground() {
-  const traces = [
-    { d: 'M560 70 H860', points: ['560,70', '860,70'] },
-    { d: 'M520 120 V250 H800', points: ['520,120', '520,250', '800,250'] },
-    { d: 'M360 210 H620 V110 H870', points: ['360,210', '620,210', '620,110', '870,110'] },
-    { d: 'M650 320 H900', points: ['650,320', '900,320'] },
-    { d: 'M470 430 V610 H760', points: ['470,430', '470,610', '760,610'] },
-    { d: 'M700 390 V560 H950', points: ['700,390', '700,560', '950,560'] },
-    { d: 'M300 520 H520 V680 H820', points: ['300,520', '520,520', '520,680', '820,680'] },
-    { d: 'M180 90 H430 V260', points: ['180,90', '430,90', '430,260'] },
-    { d: 'M120 690 H440', points: ['120,690', '440,690'] },
-    { d: 'M760 150 H1020', points: ['760,150', '1020,150'] },
-    { d: 'M840 80 V180', points: ['840,80', '840,180'] },
-  ]
+  const canvasRef = useRef<HTMLCanvasElement>(null)
 
-  const pulsePaths = [
-    { path: 'M560 70 H860', dur: '7s', begin: '0s' },
-    { path: 'M360 210 H620 V110 H870', dur: '9s', begin: '1.2s' },
-    { path: 'M470 430 V610 H760', dur: '8s', begin: '2.1s' },
-    { path: 'M300 520 H520 V680 H820', dur: '10s', begin: '0.8s' },
-  ]
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
 
-  return (
-    <svg
-      className="circuit-bg"
-      viewBox="0 0 1100 760"
-      preserveAspectRatio="xMidYMid slice"
-      aria-hidden="true"
-    >
-      <defs>
-        <radialGradient id="circuitGlow" cx="72%" cy="28%" r="48%">
-          <stop offset="0%" stopColor="rgba(139,92,246,0.30)" />
-          <stop offset="45%" stopColor="rgba(91,33,182,0.16)" />
-          <stop offset="100%" stopColor="rgba(0,0,0,0)" />
-        </radialGradient>
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
 
-        <radialGradient id="circuitGlow2" cx="38%" cy="88%" r="36%">
-          <stop offset="0%" stopColor="rgba(124,58,237,0.14)" />
-          <stop offset="100%" stopColor="rgba(0,0,0,0)" />
-        </radialGradient>
+    let width = 0
+    let height = 0
+    let dpr = Math.min(window.devicePixelRatio || 1, 2)
 
-        <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation="4" result="blur" />
-          <feMerge>
-            <feMergeNode in="blur" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
+    // Lê a cor de acento das variáveis CSS (fica em sincronia com a paleta)
+    const styles = getComputedStyle(document.documentElement)
+    const accent = styles.getPropertyValue('--accent').trim() || '#f0aa3c'
 
-        <pattern id="pcbGrid" width="44" height="44" patternUnits="userSpaceOnUse">
-          <path
-            d="M44 0 H0 V44"
-            fill="none"
-            stroke="rgba(255,255,255,0.035)"
-            strokeWidth="1"
-          />
-        </pattern>
-      </defs>
+    // Converte o hex do acento em componentes RGB (pra usar com alpha)
+    function hexToRgb(hex: string): [number, number, number] {
+      const clean = hex.replace('#', '')
+      const full =
+        clean.length === 3
+          ? clean.split('').map((c) => c + c).join('')
+          : clean
+      const num = parseInt(full, 16)
+      return [(num >> 16) & 255, (num >> 8) & 255, num & 255]
+    }
+    const [ar, ag, ab] = hexToRgb(accent.startsWith('#') ? accent : '#f0aa3c')
+    const accentRgb = `${ar}, ${ag}, ${ab}`
 
-      {/* atmosfera */}
-      <rect width="1100" height="760" fill="url(#pcbGrid)" opacity="0.28" />
-      <rect width="1100" height="760" fill="url(#circuitGlow)" />
-      <rect width="1100" height="760" fill="url(#circuitGlow2)" />
+    const mouse = { x: -9999, y: -9999 }
 
-      {/* trilhas mais fracas */}
-      <g className="circuit-layer circuit-layer-base">
-        {traces.map((trace, index) => (
-          <path
-            key={`base-${index}`}
-            d={trace.d}
-            fill="none"
-            stroke="rgba(203, 213, 225, 0.14)"
-            strokeWidth={index % 3 === 0 ? 1.5 : 1.1}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        ))}
-      </g>
+    type Node = { x: number; y: number; r: number; base: number }
+    type Trace = { x1: number; y1: number; x2: number; y2: number }
+    type Pulse = { traceIndex: number; t: number; speed: number }
 
-      {/* glow */}
-      <g className="circuit-layer circuit-layer-glow" filter="url(#softGlow)">
-        {traces.slice(0, 7).map((trace, index) => (
-          <path
-            key={`glow-${index}`}
-            d={trace.d}
-            fill="none"
-            stroke="rgba(167, 139, 250, 0.15)"
-            strokeWidth="1.6"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        ))}
-      </g>
+    let nodes: Node[] = []
+    let traces: Trace[] = []
+    let pulses: Pulse[] = []
+    let drops: { x: number; y: number; speed: number; char: string }[] = []
 
-      {/* vias / pads */}
-      <g className="circuit-vias">
-        {traces.flatMap((trace, traceIndex) =>
-          trace.points.map((point, pointIndex) => {
-            const [cx, cy] = point.split(',').map(Number)
-            const large = (traceIndex + pointIndex) % 4 === 0
+    const chars = '01</>{}[]#01ラアイ'
 
-            return (
-              <circle
-                key={`via-${traceIndex}-${pointIndex}`}
-                cx={cx}
-                cy={cy}
-                r={large ? 5.5 : 4}
-                fill={large ? 'rgba(203,213,225,0.22)' : 'rgba(203,213,225,0.16)'}
-                stroke="rgba(255,255,255,0.04)"
-                strokeWidth="1"
-              >
-                <animate
-                  attributeName="opacity"
-                  values="0.55;0.95;0.55"
-                  dur={`${4 + ((traceIndex + pointIndex) % 3)}s`}
-                  begin={`${(traceIndex + pointIndex) * 0.35}s`}
-                  repeatCount="indefinite"
-                />
-              </circle>
-            )
-          }),
-        )}
-      </g>
+    // Gera o circuito: uma malha em grade com trilhas em L e vias nos cantos
+    function build() {
+      nodes = []
+      traces = []
+      pulses = []
+      drops = []
 
-      {/* pulsos */}
-      <g className="circuit-pulses" filter="url(#softGlow)">
-        {pulsePaths.map((pulse, index) => (
-          <circle
-            key={`pulse-${index}`}
-            r="4"
-            fill="rgba(216, 180, 254, 0.95)"
-          >
-            <animateMotion
-              path={pulse.path}
-              dur={pulse.dur}
-              begin={pulse.begin}
-              repeatCount="indefinite"
-            />
-          </circle>
-        ))}
-      </g>
-    </svg>
-  )
+      const gap = 66
+      const cols = Math.ceil(width / gap) + 1
+      const rows = Math.ceil(height / gap) + 1
+
+      // Cria trilhas: caminhos que andam na horizontal e depois viram na vertical
+      const traceCount = Math.floor((cols * rows) / 6) + 8
+      for (let i = 0; i < traceCount; i++) {
+        const startCol = Math.floor(Math.random() * cols)
+        const startRow = Math.floor(Math.random() * rows)
+        const x1 = startCol * gap
+        const y1 = startRow * gap
+
+        const horiz = Math.random() > 0.5
+        const len = (1 + Math.floor(Math.random() * 3)) * gap
+
+        let x2 = x1
+        let y2 = y1
+        if (horiz) {
+          x2 = Math.min(x1 + len, width)
+        } else {
+          y2 = Math.min(y1 + len, height)
+        }
+
+        traces.push({ x1, y1, x2, y2 })
+        nodes.push({ x: x1, y: y1, r: 2.5, base: 2.5 })
+        nodes.push({ x: x2, y: y2, r: 2.5, base: 2.5 })
+      }
+
+      // Alguns pulsos correndo por trilhas aleatórias
+      const pulseCount = Math.max(5, Math.floor(traces.length / 4))
+      for (let i = 0; i < pulseCount; i++) {
+        pulses.push({
+          traceIndex: Math.floor(Math.random() * traces.length),
+          t: Math.random(),
+          speed: 0.002 + Math.random() * 0.004,
+        })
+      }
+
+      // Camada matrix: colunas de caracteres caindo bem devagar
+      const dropCount = Math.floor(width / 42)
+      for (let i = 0; i < dropCount; i++) {
+        drops.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          speed: 0.2 + Math.random() * 0.5,
+          char: chars[Math.floor(Math.random() * chars.length)],
+        })
+      }
+    }
+
+    function resize() {
+      const rect = canvas!.getBoundingClientRect()
+      width = rect.width
+      height = rect.height
+      dpr = Math.min(window.devicePixelRatio || 1, 2)
+      canvas!.width = width * dpr
+      canvas!.height = height * dpr
+      ctx!.setTransform(dpr, 0, 0, dpr, 0, 0)
+      build()
+    }
+
+    let frame = 0
+    function draw() {
+      ctx!.clearRect(0, 0, width, height)
+
+      // 1) Camada matrix (fundo, bem sutil)
+      ctx!.font = '12px monospace'
+      for (const d of drops) {
+        ctx!.fillStyle = `rgba(${accentRgb}, 0.06)`
+        ctx!.fillText(d.char, d.x, d.y)
+        d.y += d.speed
+        if (d.y > height) {
+          d.y = 0
+          d.x = Math.random() * width
+          d.char = chars[Math.floor(Math.random() * chars.length)]
+        }
+        if (frame % 30 === 0 && Math.random() > 0.9) {
+          d.char = chars[Math.floor(Math.random() * chars.length)]
+        }
+      }
+
+      // 2) Trilhas do circuito (linhas neutras/prata)
+      ctx!.lineWidth = 1
+      ctx!.strokeStyle = 'rgba(203, 213, 225, 0.12)'
+      for (const tr of traces) {
+        ctx!.beginPath()
+        ctx!.moveTo(tr.x1, tr.y1)
+        ctx!.lineTo(tr.x2, tr.y2)
+        ctx!.stroke()
+      }
+
+      // 3) Vias / pads (acendem perto do mouse)
+      for (const n of nodes) {
+        const dx = n.x - mouse.x
+        const dy = n.y - mouse.y
+        const dist = Math.hypot(dx, dy)
+        const near = dist < 120
+        const glow = near ? 1 - dist / 120 : 0
+
+        ctx!.beginPath()
+        ctx!.arc(n.x, n.y, n.base + glow * 2.5, 0, Math.PI * 2)
+        if (near) {
+          ctx!.fillStyle = `rgba(${accentRgb}, ${0.3 + glow * 0.7})`
+        } else {
+          ctx!.fillStyle = 'rgba(203, 213, 225, 0.22)'
+        }
+        ctx!.fill()
+      }
+
+      // 4) Pulsos âmbar correndo pelas trilhas
+      for (const p of pulses) {
+        const tr = traces[p.traceIndex]
+        if (!tr) continue
+        p.t += p.speed
+        if (p.t > 1) {
+          p.t = 0
+          p.traceIndex = Math.floor(Math.random() * traces.length)
+        }
+        const px = tr.x1 + (tr.x2 - tr.x1) * p.t
+        const py = tr.y1 + (tr.y2 - tr.y1) * p.t
+
+        const grad = ctx!.createRadialGradient(px, py, 0, px, py, 9)
+        grad.addColorStop(0, `rgba(${accentRgb}, 0.9)`)
+        grad.addColorStop(1, `rgba(${accentRgb}, 0)`)
+        ctx!.fillStyle = grad
+        ctx!.beginPath()
+        ctx!.arc(px, py, 9, 0, Math.PI * 2)
+        ctx!.fill()
+
+        ctx!.fillStyle = `rgba(${accentRgb}, 1)`
+        ctx!.beginPath()
+        ctx!.arc(px, py, 2, 0, Math.PI * 2)
+        ctx!.fill()
+      }
+
+      frame++
+      animationId = requestAnimationFrame(draw)
+    }
+
+    let animationId = 0
+
+    function onMouseMove(e: MouseEvent) {
+      const rect = canvas!.getBoundingClientRect()
+      mouse.x = e.clientX - rect.left
+      mouse.y = e.clientY - rect.top
+    }
+    function onMouseLeave() {
+      mouse.x = -9999
+      mouse.y = -9999
+    }
+
+    resize()
+    draw()
+
+    window.addEventListener('resize', resize)
+    canvas.addEventListener('mousemove', onMouseMove)
+    canvas.addEventListener('mouseleave', onMouseLeave)
+
+    return () => {
+      cancelAnimationFrame(animationId)
+      window.removeEventListener('resize', resize)
+      canvas.removeEventListener('mousemove', onMouseMove)
+      canvas.removeEventListener('mouseleave', onMouseLeave)
+    }
+  }, [])
+
+  return <canvas ref={canvasRef} className="circuit-bg" aria-hidden="true" />
 }
 
 export default CircuitBackground
