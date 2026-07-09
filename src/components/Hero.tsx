@@ -12,7 +12,7 @@ import {
 } from 'react-icons/si'
 import { LuCpu, LuWorkflow, LuMicrochip, LuDownload } from 'react-icons/lu'
 import { FaGithub, FaLinkedin } from 'react-icons/fa'
-import CircuitBackground from './CircuitBackground'
+import FluidBackground from './FluidBackground'
 
 type HeroProps = {
   language: Language
@@ -66,7 +66,7 @@ function Hero({ language }: HeroProps) {
 
   return (
     <section id="home" className="hero">
-      <CircuitBackground />
+      <FluidBackground />
 
       <div className="hero-content">
         <p className="hero-tag">{text.tag}</p>
