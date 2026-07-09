@@ -6,6 +6,7 @@ type NavbarProps = {
   toggleLanguage: () => void
 }
 
+
 const navbarText = {
   en: {
     logo: 'Pedro Machado',
