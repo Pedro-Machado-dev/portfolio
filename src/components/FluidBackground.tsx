@@ -24,10 +24,15 @@ function FluidBackground() {
       window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
+    // Ajustes por dispositivo. No mobile: um pouco mais de resolução e menos octaves.
     const octaves = isMobile ? 4 : 5
-    const renderScale = isMobile ? 0.5 : 0.75
-    // Com reduced-motion a gente NÃO congela: só deixa bem lento e sutil.
-    const timeScale = reduceMotion ? 0.15 : 1
+    const renderScale = isMobile ? 0.62 : 0.75
+    // Com reduced-motion não congela: fica lento. Mobile anda um tico mais devagar.
+    const timeScale = reduceMotion ? 0.15 : isMobile ? 0.7 : 1
+    // Padrão de ruído maior no mobile => manchas maiores e mais legíveis em tela estreita.
+    const noiseScale = isMobile ? 1.7 : 2.2
+    // Intensidade do âmbar (mais presença no mobile).
+    const amberBoost = isMobile ? 1.35 : 1.0
 
     const vsSource = 'attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}'
 
@@ -36,6 +41,8 @@ precision highp float;
 uniform vec2 u_res;
 uniform float u_time;
 uniform vec2 u_mouse;
+uniform float u_noiseScale;
+uniform float u_amber;
 float hash(vec2 p){p=fract(p*vec2(123.34,456.21));p+=dot(p,p+45.32);return fract(p.x*p.y);}
 float noise(vec2 p){
   vec2 i=floor(p),f=fract(p);
@@ -51,7 +58,7 @@ float fbm(vec2 p){
 void main(){
   vec2 uv=gl_FragCoord.xy/u_res.xy;
   float asp=u_res.x/u_res.y;
-  vec2 p=vec2(uv.x*asp,uv.y)*2.2;
+  vec2 p=vec2(uv.x*asp,uv.y)*u_noiseScale;
   float t=u_time*.06;
   vec2 mo=u_mouse/u_res;
   float md=length(vec2((uv.x-mo.x)*asp,uv.y-mo.y));
@@ -62,9 +69,9 @@ void main(){
   vec3 c1=vec3(0.016,0.016,0.019);
   vec3 c2=vec3(0.18,0.10,0.02);
   vec3 c3=vec3(0.941,0.667,0.235);
-  vec3 col=mix(c1,c2,smoothstep(0.15,0.7,f));
-  col=mix(col,c3,smoothstep(0.6,1.0,f)*smoothstep(0.35,0.9,r.x));
-  col+=c3*0.12*pow(max(f,0.),3.0);
+  vec3 col=mix(c1,c2,smoothstep(0.12,0.66,f)*u_amber);
+  col=mix(col,c3,smoothstep(0.55,0.98,f)*smoothstep(0.32,0.9,r.x)*u_amber);
+  col+=c3*0.12*u_amber*pow(max(f,0.),3.0);
   col+=(hash(gl_FragCoord.xy+u_time)-.5)*0.035;
   col*=1.-0.45*length(uv-0.5);
   gl_FragColor=vec4(col,1.);
@@ -102,6 +109,12 @@ void main(){
     const uRes = gl.getUniformLocation(program, 'u_res')
     const uTime = gl.getUniformLocation(program, 'u_time')
     const uMouse = gl.getUniformLocation(program, 'u_mouse')
+    const uNoiseScale = gl.getUniformLocation(program, 'u_noiseScale')
+    const uAmber = gl.getUniformLocation(program, 'u_amber')
+
+    // Uniforms constantes: setados uma vez.
+    gl.uniform1f(uNoiseScale, noiseScale)
+    gl.uniform1f(uAmber, amberBoost)
 
     let mouse: [number, number] = [0, 0]
 
@@ -152,7 +165,10 @@ void main(){
     }
 
     resize()
+    // Começa a animar IMEDIATAMENTE, sem depender do observer.
+    play()
 
+    // O observer só PAUSA quando sai da tela e RETOMA quando volta.
     const io = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) play()
