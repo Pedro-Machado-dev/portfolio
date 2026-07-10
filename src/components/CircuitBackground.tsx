@@ -191,6 +191,18 @@ function CircuitBackground() {
     }
 
     let animationId = 0
+    let running = false
+
+    function play() {
+      if (running) return
+      running = true
+      draw()
+    }
+
+    function stop() {
+      running = false
+      cancelAnimationFrame(animationId)
+    }
 
     function onMouseMove(e: MouseEvent) {
       const rect = canvas!.getBoundingClientRect()
@@ -203,15 +215,33 @@ function CircuitBackground() {
     }
 
     resize()
-    draw()
+
+    // Só anima quando a seção está visível na tela.
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) play()
+        else stop()
+      },
+      { threshold: 0 },
+    )
+    io.observe(canvas)
+
+    function onVisibility() {
+      if (document.hidden) stop()
+      else play()
+    }
 
     window.addEventListener('resize', resize)
+    document.addEventListener('visibilitychange', onVisibility)
+    // Mouse escutado só sobre o canvas (não na página toda).
     canvas.addEventListener('mousemove', onMouseMove)
     canvas.addEventListener('mouseleave', onMouseLeave)
 
     return () => {
-      cancelAnimationFrame(animationId)
+      stop()
+      io.disconnect()
       window.removeEventListener('resize', resize)
+      document.removeEventListener('visibilitychange', onVisibility)
       canvas.removeEventListener('mousemove', onMouseMove)
       canvas.removeEventListener('mouseleave', onMouseLeave)
     }

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import type { Language } from '../App'
 import { LuCpu, LuGraduationCap, LuLanguages, LuBriefcase, LuCode } from 'react-icons/lu'
 import { FaMicrochip } from 'react-icons/fa'
+import CircuitBackground from './CircuitBackground'
 
 type TimelineProps = {
   language: Language
@@ -189,6 +190,8 @@ function Timeline({ language }: TimelineProps) {
 
   return (
     <section id="journey" className="timeline section">
+      <CircuitBackground />
+
       <p className="section-tag">{text.tag}</p>
       <h2 className="section-title">{text.title}</h2>
 
