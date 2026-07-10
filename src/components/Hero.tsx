@@ -9,8 +9,9 @@ import {
   SiPython,
   SiOpenjdk,
   SiArduino,
+  SiVite,
 } from 'react-icons/si'
-import { LuCpu, LuWorkflow, LuMicrochip, LuDownload } from 'react-icons/lu'
+import { LuCpu, LuWorkflow, LuMicrochip, LuDownload, LuRadio } from 'react-icons/lu'
 import { FaGithub, FaLinkedin } from 'react-icons/fa'
 import FluidBackground from './FluidBackground'
 
@@ -48,18 +49,47 @@ type TechItem = {
   name: string
 }
 
-const techItems: TechItem[] = [
+// Fileira 1 — software (desliza para a esquerda)
+const softwareItems: TechItem[] = [
   { icon: SiReact, name: 'React' },
   { icon: SiTypescript, name: 'TypeScript' },
   { icon: SiJavascript, name: 'JavaScript' },
-  { icon: SiCplusplus, name: 'C++' },
+  { icon: SiVite, name: 'Vite' },
   { icon: SiPython, name: 'Python' },
   { icon: SiOpenjdk, name: 'Java' },
-  { icon: SiArduino, name: 'Arduino' },
-  { icon: LuMicrochip, name: 'ESP32' },
-  { icon: LuWorkflow, name: 'Ladder' },
-  { icon: LuCpu, name: 'PLC' },
 ]
+
+// Fileira 2 — hardware e automação (desliza para a direita)
+const hardwareItems: TechItem[] = [
+  { icon: LuMicrochip, name: 'ESP32' },
+  { icon: SiArduino, name: 'Arduino' },
+  { icon: SiCplusplus, name: 'C++' },
+  { icon: LuCpu, name: 'PLC' },
+  { icon: LuWorkflow, name: 'Ladder' },
+  { icon: LuRadio, name: 'RFID' },
+]
+
+function TechRow({ items, direction }: { items: TechItem[]; direction: 'ltr' | 'rtl' }) {
+  // Duplica os itens pra criar o loop infinito sem "buraco".
+  const loop = [...items, ...items]
+
+  return (
+    <div className={`tech-row tech-row--${direction}`}>
+      <div className="tech-row-track">
+        {loop.map((tech, index) => {
+          const Icon = tech.icon
+
+          return (
+            <span className="tech-chip" key={`${tech.name}-${index}`}>
+              <Icon className="tech-chip-icon" />
+              <span>{tech.name}</span>
+            </span>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
 
 function Hero({ language }: HeroProps) {
   const text = heroText[language]
@@ -116,19 +146,9 @@ function Hero({ language }: HeroProps) {
           </a>
         </div>
 
-        <div className="tech-marquee" aria-hidden="true">
-          <div className="tech-marquee-track">
-            {[...techItems, ...techItems].map((tech, index) => {
-              const Icon = tech.icon
-
-              return (
-                <span className="tech-marquee-item" key={`${tech.name}-${index}`}>
-                  <Icon className="tech-real-icon" />
-                  <span>{tech.name}</span>
-                </span>
-              )
-            })}
-          </div>
+        <div className="tech-rows" aria-hidden="true">
+          <TechRow items={softwareItems} direction="rtl" />
+          <TechRow items={hardwareItems} direction="ltr" />
         </div>
       </div>
     </section>
