@@ -3,7 +3,6 @@ import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import About from './components/About'
 import Timeline from './components/Timeline'
-import Technologies from './components/Technologies'
 import Projects from './components/Projects'
 import Hardware from './components/Hardware'
 import Skills from './components/Skills'
@@ -26,7 +25,6 @@ function App() {
       <Hero language={language} />
       <About language={language} />
       <Timeline language={language} />
-      <Technologies language={language} />
       <Projects language={language} />
       <Hardware language={language} />
       <Skills language={language} />

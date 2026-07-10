@@ -31,6 +31,12 @@ type ProjectsContent = {
 
 const webProjects: WebProject[] = [
   {
+    title: 'Restaurante Katana',
+    image: '/projects/katana.jpg',
+    siteLink: 'https://restaurantekatana.vercel.app',
+    githubLink: 'https://github.com/Pedro-Machado-dev/katana',
+  },
+  {
     title: 'Maria Luiza Portfolio',
     image: '/projects/maria-luiza-portfolio.jpeg',
     siteLink: 'https://marialopes.vercel.app',

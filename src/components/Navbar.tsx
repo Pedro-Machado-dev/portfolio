@@ -6,13 +6,12 @@ type NavbarProps = {
   toggleLanguage: () => void
 }
 
-
 const navbarText = {
   en: {
     logo: 'Pedro Machado',
     home: 'Home',
     about: 'About',
-    technologies: 'Technologies',
+    journey: 'Journey',
     projects: 'Projects',
     education: 'Education',
     contact: 'Contact',
@@ -22,7 +21,7 @@ const navbarText = {
     logo: 'Pedro Machado',
     home: 'Início',
     about: 'Sobre',
-    technologies: 'Tecnologias',
+    journey: 'Trajetória',
     projects: 'Projetos',
     education: 'Formação',
     contact: 'Contato',
@@ -42,21 +41,21 @@ function Navbar({ language, toggleLanguage }: NavbarProps) {
       <nav className="nav-links">
         <a href="#home">{text.home}</a>
         <a href="#about">{text.about}</a>
-        <a href="#technologies">{text.technologies}</a>
+        <a href="#journey">{text.journey}</a>
         <a href="#projects">{text.projects}</a>
-        <a href="#education">{text.education}</a>
+        <a href="#skills">{text.education}</a>
         <a href="#contact">{text.contact}</a>
       </nav>
 
       <button
-  className="language-button"
-  onClick={toggleLanguage}
-  aria-label={language === 'en' ? 'Switch to Portuguese' : 'Mudar para inglês'}
-  title={language === 'en' ? 'Switch to Portuguese' : 'Mudar para inglês'}
->
-  <MdGTranslate className="language-icon" />
-  <span>{language === 'en' ? 'PT' : 'EN'}</span>
-</button>
+        className="language-button"
+        onClick={toggleLanguage}
+        aria-label={language === 'en' ? 'Switch to Portuguese' : 'Mudar para inglês'}
+        title={language === 'en' ? 'Switch to Portuguese' : 'Mudar para inglês'}
+      >
+        <MdGTranslate className="language-icon" />
+        <span>{language === 'en' ? 'PT' : 'EN'}</span>
+      </button>
     </header>
   )
 }
